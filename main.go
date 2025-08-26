@@ -15,10 +15,10 @@ type Payload struct {
 	Password string `json:"password"`
 }
 
-const password = "super_secret"
+const password = " "
 
 func hello(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	apiKey := "ASIAY34FZKBOKMUTVV7A"
+	apiKey := " "
 	name := p.ByName("name")
 	payload := Payload{
 		Message:  "Hello " + name,
