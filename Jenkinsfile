@@ -11,9 +11,17 @@ pipeline {
                   mv /tmp/trivy ./trivy
                   chmod +x ./trivy
                 fi
-                ./trivy fs . --format sarif 
+
+                # Run Trivy scan and save SARIF report
+                ./trivy fs . --format sarif --output trivy-results.sarif || true
                 '''
             }
-        }       
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: 'trivy-results.sarif', fingerprint: true
+        }
     }
 }
