@@ -9,11 +9,19 @@ pipeline {
         stage('Trivy Image Scan') {
             steps {
                 sh '''
-                # Download Trivy if not present
+                # Check if Trivy is already installed
                 if ! command -v trivy > /dev/null; then
                   echo "Installing Trivy..."
-                  curl -sL https://github.com/aquasecurity/trivy/releases/download/v0.65.0/trivy_0.65.0_Linux-64bit.tar.gz | tar zxvf - -C /tmp
-                  mv /tmp/trivy ./trivy
+
+                  # Define installation directory
+                  INSTALL_DIR=/tmp/trivy-install
+
+                  # Download and extract Trivy
+                  mkdir -p ${INSTALL_DIR}
+                  curl -sL https://github.com/aquasecurity/trivy/releases/download/v0.65.0/trivy_0.65.0_Linux-64bit.tar.gz | tar zxvf - -C ${INSTALL_DIR}
+
+                  # Move trivy binary to current directory and make it executable
+                  mv ${INSTALL_DIR}/trivy ./
                   chmod +x ./trivy
                 fi
 
