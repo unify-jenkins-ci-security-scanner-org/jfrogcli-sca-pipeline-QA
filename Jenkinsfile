@@ -43,6 +43,27 @@ pipeline {
       }
     }
 
+    stage('Install Go and NPM (if needed)') {
+      steps {
+        sh '''
+          echo "Installing Go and NPM..."
+
+          if ! command -v go &> /dev/null; then
+            echo "Installing Go..."
+            wget https://go.dev/dl/go1.21.1.linux-amd64.tar.gz
+            tar -C /usr/local -xzf go1.21.1.linux-amd64.tar.gz
+            export PATH=$PATH:/usr/local/go/bin
+          fi
+
+          if ! command -v npm &> /dev/null; then
+            echo "Installing Node.js + NPM..."
+            curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+            apt-get install -y nodejs
+          fi
+        '''
+      }
+    }
+    
     stage('Debug Directory Contents') {
       steps {
         sh '''
