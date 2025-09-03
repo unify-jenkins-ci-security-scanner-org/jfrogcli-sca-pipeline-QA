@@ -13,9 +13,10 @@ pipeline {
         retry(3) {
           sh '''
             if [ ! -f "$WORKSPACE/jf" ]; then
-              echo ":package: Downloading JFrog CLI..."
-              curl -fL https://releases.jfrog.io/artifactory/jfrog-cli/v2-jf/latest/jfrog-cli-linux-amd64/jf -o jf
-              chmod +x jf
+              echo ":package: Downloading JFrog CLI from install-cli.jfrog.io..."
+              curl -fL https://install-cli.jfrog.io | sh
+              chmod +x jfrog
+              mv jfrog jf  # Rename to 'jf' for consistency in pipeline
             fi
             ./jf --version
           '''
