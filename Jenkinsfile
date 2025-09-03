@@ -4,7 +4,7 @@ pipeline {
   environment {
     JFROG_SERVER = "https://cbjfrog.saas-preprod.beescloud.com"
     JFROG_CLI_PATH = "${env.WORKSPACE}/jf"
-    SCA_PROJECT_DIR = "${env.WORKSPACE}/vulnado"
+    SCA_PROJECT_DIR = "${env.WORKSPACE}/test-workflow-ninja"
   }
 
   stages {
@@ -43,11 +43,11 @@ pipeline {
       }
     }
 
-    stage('Run SCA Scan on vulnado') {
+    stage('Run SCA Scan on test-workflow-ninja') {
       steps {
         dir("${env.SCA_PROJECT_DIR}") {
           sh '''
-            echo ":mag: Running SCA scan on vulnado project..."
+            echo ":mag: Running SCA scan on test-workflow-ninja project..."
             ../jf audit . --sca --format sarif > ../jfrog-sarif-sca-results.sarif || true
           '''
         }
