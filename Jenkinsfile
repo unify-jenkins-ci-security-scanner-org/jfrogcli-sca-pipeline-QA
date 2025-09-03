@@ -77,7 +77,10 @@ pipeline {
       steps {
         dir("${env.SCA_PROJECT_DIR}") {
           sh '''
-            echo ":mag: Running SCA scan on test-workflow-ninja project..."
+            echo ":wrench: Using portable Go and Node.js..."
+            export PATH=$PWD/tools/go/bin:$PWD/tools/node/bin:$PATH
+
+            echo ":mag: Running SCA scan..."
             ../jf audit . --sca --format sarif > ../jfrog-sarif-sca-results.sarif || true
           '''
         }
